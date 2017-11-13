@@ -43,8 +43,8 @@ public class Group {
 		}
 		public void accept(Visitor v) {
 	        v.visitor_Group(this);
-	        for (Group elem : child){
-	            elem.accept(v);
+	        for (Node elem : child){
+	            ((Group) elem).accept(v);
 	        }
 	    }
 }

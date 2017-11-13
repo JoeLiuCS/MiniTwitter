@@ -15,6 +15,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 public class MainpageLayout implements ActionListener,TreeSelectionListener{
@@ -117,6 +118,7 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 		treeList =  new JTree(top_root);
 		treeList.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		treeList.addTreeSelectionListener(this);
+		treeList.setCellRenderer(new CustomizeTreeCellRenderer());
 	    leftPanel.add(treeList);
 	    
 	    //rightPanel (Top)
@@ -178,26 +180,27 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 	    frame.setVisible(true);
 	}
 	private void showUserTotal(){
-		User u  = new User(treeList.getModel().getRoot(),"root");
+		User u  = new User("User",(TreeNode) treeList.getModel().getRoot(),"root");
 		CountUserVisitor c = new CountUserVisitor();
 		u.accept(c);
 		System.out.println(c.getNum());
 		
 	}
 	private void showGroupTotal(){
-		Group u  = new Group(treeList.getModel().getRoot(),"root");
+		Group u  = new Group("Group",(DefaultMutableTreeNode) treeList.getModel().getRoot());
 		CountGroupVisitor c = new CountGroupVisitor();
 		u.accept(c);
 		System.out.println(c.getTotal());
 	}
 	private void showMessagerTotal(){
-		User u  = new User(treeList.getModel().getRoot(),"root");
+		User u  = new User("User",(TreeNode)treeList.getModel().getRoot(),"root");
 		CountMessageVisitor c = new CountMessageVisitor();
 		u.accept(c);
 		System.out.println(c.getTotal());
 	}
 	private void showPositivePercentage(){
-		User u  = new User(treeList.getModel().getRoot(),"root");
+		User u  = new User("User",(TreeNode) treeList.getModel().getRoot(),"root");
+		@SuppressWarnings("unchecked")
 		List<String> l  = (List<String>) treeList;
 		CountPositiveMesVisitor c = new CountPositiveMesVisitor(l);
 		u.accept(c);
@@ -206,8 +209,6 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 	private void showOpenUserView(){
 		ChatPageLayout c = new ChatPageLayout(root_select);
 	}
-	
-	
 	
 	private void addGroup(String name){
 		top_root.add(new DefaultMutableTreeNode(name));

@@ -1,5 +1,6 @@
 package app;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -29,11 +30,20 @@ public class CustomizeTreeCellRenderer implements TreeCellRenderer{
 	            else {
 	                label.setOpaque(false);
 	            }
-	            if (User instanceof Group){
-	                label.setFont(new Font("SANS_SERIF", Font.BOLD, 12));
+	            if (row ==tree.getRowCount()-1){
+	            	int get = Integer.parseInt(value.toString());
+	            	if(get > 0){
+	            		label.setBackground(Color.black);
+	            		label.setFont(new Font("Lo", Font.BOLD, 10));
+	            	}
 	            }
 	            else {
-	                label.setFont(new Font("SANS_SERIF", Font.PLAIN, 12));
+	            	int get = Integer.parseInt(value.toString());
+	            	if(get>0){
+	            		label.setBackground(Color.RED);
+	            		label.setFont(new Font("Ro", Font.PLAIN, 10));
+	            	}
+	            	
 	            }
 
 	        return label;

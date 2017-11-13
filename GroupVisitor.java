@@ -1,10 +1,10 @@
 package app;
 
 public class GroupVisitor implements Visitor{
-	public Group g;
-	public User u;
+	private Group g;
+	private User u;
 	private String ID;
-
+	
 	public GroupVisitor(String input_id){
 		ID = input_id;
 	}
@@ -21,5 +21,14 @@ public class GroupVisitor implements Visitor{
 			g = group;
 		}
 	}
-
+	
+	public Group getGroupTesting(){
+		return g;
+	}
+	public User getUserTesting(){
+		return u;
+	}
+	public String getIDTesting(){
+		return ID;
+	}
 }
