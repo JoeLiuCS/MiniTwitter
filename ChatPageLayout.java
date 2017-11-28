@@ -42,6 +42,8 @@ public class ChatPageLayout implements ActionListener{
 	private void postMessage(String text){
 		if(!text.isEmpty()){
 			user.postNewTweet(text);
+			user.setTime();
+			user.changeLastPerson(user.getID());
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package app;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +14,26 @@ public class User extends Subject implements Observer{
 	private String tweet;
 	private String ID;
 	private TreeNode node;
+	SimpleDateFormat time;
+	String thelastPreson;
 	
-	public User(String input_ID,TreeNode input_Node,String newPost){
+	public User(String input_ID,TreeNode input_Node,String newPost,SimpleDateFormat GivenTime){
+		time = GivenTime;
 		node = input_Node;
 		ID = input_ID;
 		tweet = newPost;
 		attach(this);
 		follower.add(this);
 	}
-	
+	public void setTime(){
+		time = new SimpleDateFormat("HH:mm:ss");
+	}
+	public void changeLastPerson(String p){
+		thelastPreson = p;
+	}
+	public String getLastPerson(){
+		return thelastPreson;
+	}
 	public String showMefirstTweet(){
 		return twitter.get(0);
 	}

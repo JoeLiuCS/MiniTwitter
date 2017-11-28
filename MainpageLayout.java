@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -37,10 +39,12 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 	private JButton messageTotal_button = new JButton("messagerTotal");
 	private JButton Positive_percentage_button = new JButton("Positive percentage");
 	private JButton openUserView = new JButton("openUserView");
-	
+	private JButton IDverification = new JButton("IDverification");
+	private JButton showLastPreson = new JButton("showLastPreson");
 	
 	private JTextField userID = new JTextField(5);
 	private JTextField groupID = new JTextField(5);
+	private JTextField lastUser = new JTextField(5);
 	private Object root_select;
 	
 	@Override
@@ -52,6 +56,9 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 				System.out.println("Add user");
 				addUser(input_userID);
 			}
+		}
+		if(command.equals("showLastPreson")){
+			lastUser.setText(userID.getText());
 		}
 		if(command.equals("AddGroup")){
 			String input_groupID = groupID.getText();
@@ -73,6 +80,9 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 		}
 		if(command.equals("openUserView")){
 			showOpenUserView();
+		}
+		if(command.equals("IDverification")){
+			ShowVerification();
 		}
 	}
 	
@@ -113,6 +123,7 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 		messageTotal_button.addActionListener(this);
 		Positive_percentage_button.addActionListener(this);
 		openUserView.addActionListener(this);
+		IDverification.addActionListener(this);
 	    
 	    //tree  leftPanel
 		treeList =  new JTree(top_root);
@@ -147,12 +158,18 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 	    groupID.setSize(50, 50);
 	    rightTopPanel.add(groupID);
 	    
+	    lastUser.setSize(50, 50);
+	    rightTopPanel.add(lastUser);
+	    
+	    showLastPreson.setSize(50,50);
+	    rightTopPanel.add(showLastPreson);
 	    
 	    rightTopPanel.add(addGroup);
 	    JLabel empty = new JLabel("");
 	    empty.setForeground(Color.BLACK);
         rightTopPanel.add(empty);
 	    rightTopPanel.add(openUserView);
+	    rightTopPanel.add(IDverification);
 	    
 	    
 	    // rightPanel  (bottom)
@@ -180,26 +197,40 @@ public class MainpageLayout implements ActionListener,TreeSelectionListener{
 	    frame.setVisible(true);
 	}
 	private void showUserTotal(){
-		User u  = new User("User",(TreeNode) treeList.getModel().getRoot(),"root");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		User u  = new User("User",(TreeNode) treeList.getModel().getRoot(),"root",sdf);
 		CountUserVisitor c = new CountUserVisitor();
 		u.accept(c);
 		System.out.println(c.getNum());
 		
 	}
+	private void ShowVerification(){
+		Enumeration e = ((DefaultMutableTreeNode)treeList.getModel().getRoot()).preorderEnumeration();
+		while (e.hasMoreElements()){
+			if (userID.equals(e.nextElement())){
+				userID.setText("Not valid");
+				break;
+			}
+		}
+		userID.setText("valid");
+	}
 	private void showGroupTotal(){
-		Group u  = new Group("Group",(DefaultMutableTreeNode) treeList.getModel().getRoot());
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		Group u  = new Group("Group",(DefaultMutableTreeNode) treeList.getModel().getRoot(),sdf);
 		CountGroupVisitor c = new CountGroupVisitor();
 		u.accept(c);
 		System.out.println(c.getTotal());
 	}
 	private void showMessagerTotal(){
-		User u  = new User("User",(TreeNode)treeList.getModel().getRoot(),"root");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		User u  = new User("User",(TreeNode)treeList.getModel().getRoot(),"root",sdf);
 		CountMessageVisitor c = new CountMessageVisitor();
 		u.accept(c);
 		System.out.println(c.getTotal());
 	}
 	private void showPositivePercentage(){
-		User u  = new User("User",(TreeNode) treeList.getModel().getRoot(),"root");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		User u  = new User("User",(TreeNode) treeList.getModel().getRoot(),"root",sdf);
 		@SuppressWarnings("unchecked")
 		List<String> l  = (List<String>) treeList;
 		CountPositiveMesVisitor c = new CountPositiveMesVisitor(l);

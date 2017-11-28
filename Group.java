@@ -1,5 +1,6 @@
 package app;
 
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,8 +12,10 @@ public class Group {
 		private String ID;
 		private List<Node> child;
 		private DefaultMutableTreeNode tree;
+		SimpleDateFormat time;
 		
-		public Group(String input_ID,DefaultMutableTreeNode input_node){
+		public Group(String input_ID,DefaultMutableTreeNode input_node,SimpleDateFormat GivenTime){
+			time = GivenTime;
 			ID = input_ID;
 			child = new LinkedList<>();
 			tree = input_node;
